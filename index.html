@@ -1,210 +1,391 @@
 <!DOCTYPE html>
-<html lang="ar" dir="rtl">
+<html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>عيادة أمنية Ultra Pro</title>
+<title>
+Omnia Clinic - Smart Medical Booking
+</title>
 <style>
-*{margin:0;padding:0;box-sizing:border-box;font-family:'Segoe UI',sans-serif}
-body{background:#f0f9ff;padding-bottom:380px}
-header{background:linear-gradient(135deg,#0ea5e9,#7c3aed);color:white;padding:25px;text-align:center}
-.emergency{background:#ef4444;color:white;padding:12px;text-align:center;font-weight:bold}
-.emergency button{background:white;color:#ef4444;padding:8px 16px;border:none;border-radius:20px;font-weight:bold;cursor:pointer}
-.offer{background:#e0f2fe;text-align:center;padding:10px;font-weight:bold;color:#0c4a6e}
-.info,.form-box,.admin,.about,.symptom{background:white;margin:20px;padding:20px;border-radius:15px;text-align:center;box-shadow:0 4px 15px rgba(0,0,0,.1)}
-.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin:20px}
-.stat{background:white;padding:12px;border-radius:12px;text-align:center;box-shadow:0 2px 10px rgba(0,0,0,.1)}
-.stat b{font-size:20px;color:#0284c7;display:block}
-.topbar{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;padding:0 20px}
-.topbar input,.topbar select{padding:12px;border-radius:25px;border:1px solid #ddd;text-align:center}
-.cats{display:flex;gap:8px;justify-content:center;flex-wrap:wrap;padding:15px}
-.cats button{background:white;color:#0284c7;border:2px solid #0284c7}
-.cats button.active{background:#0284c7;color:white}
-.menu{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:20px;padding:20px}
-.card{background:white;border-radius:18px;overflow:hidden;box-shadow:0 4px 15px rgba(0,0,0,.1);text-align:center;padding-bottom:15px;position:relative}
-.card img{width:100%;height:220px;object-fit:cover}
-.card h3{margin:10px 0 3px}
-.card p{color:#666;font-size:13px;padding:0 12px;margin:3px 0}
-.price{color:#0284c7;font-weight:bold;font-size:18px;margin:8px}
-.badge{display:inline-block;background:#dcfce7;color:#166534;padding:4px 10px;border-radius:20px;font-size:12px}
-.slots{display:flex;gap:5px;flex-wrap:wrap;justify-content:center;margin:8px}
-.slots span{padding:6px 10px;border-radius:15px;background:#f1f5f9;font-size:12px;cursor:pointer;border:1px solid #ddd}
-.slots span.sel{background:#0284c7;color:white}
-.slots span.booked{background:#fee2e2;color:#999;text-decoration:line-through}
-button{background:#0284c7;color:white;border:none;padding:10px 18px;border-radius:20px;cursor:pointer;font-size:15px;margin:2px}
-.form-box input,.form-box select,.admin input,.admin select,.symptom select{padding:12px;margin:6px 0;width:95%;max-width:500px;border-radius:10px;border:1px solid #ddd}
-#bookings{position:fixed;bottom:15px;left:15px;right:15px;background:white;padding:15px;border-radius:15px;box-shadow:0 0 20px rgba(0,0,0,.25);text-align:center;max-height:340px;overflow-y:auto}
-.book-item{display:flex;justify-content:space-between;align-items:center;padding:8px 0;border-bottom:1px solid #eee;font-size:13px;flex-wrap:wrap;gap:5px}
-#modal{position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,.7);display:none;align-items:center;justify-content:center;z-index:99;padding:20px}
-#modalBox{background:white;border-radius:20px;max-width:520px;width:100%;padding:20px;text-align:center;max-height:90vh;overflow-y:auto}
-#modalBox img{width:120px;height:120px;object-fit:cover;border-radius:50%}
-.review{background:#f8fafc;padding:10px;border-radius:10px;margin:5px 0;text-align:right;font-size:13px}
-.tabs{display:flex;gap:8px;justify-content:center;margin:15px}
-.tabs button{background:#e2e8f0;color:#111}
-.tabs button.active{background:#0284c7;color:white}
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:Arial;
+}
+body{
+background:#f0f9ff;
+}
+header{
+background:#0284c7;
+color:white;
+padding:25px;
+text-align:center;
+}
+header h1{
+font-size:32px;
+}
+header p{
+margin-top:5px;
+opacity:.9;
+}
+.info{
+background:white;
+padding:15px;
+text-align:center;
+border-bottom:2px solid #bae6fd;
+}
+.info b{
+color:#0284c7;
+}
+.container{
+max-width:900px;
+margin:auto;
+padding:15px;
+}
+.card{
+background:white;
+padding:20px;
+border-radius:15px;
+box-shadow:0 3px 10px #ddd;
+margin-bottom:15px;
+}
+.card h2{
+color:#0284c7;
+margin-bottom:12px;
+}
+input,
+select{
+width:100%;
+padding:12px;
+margin:7px 0;
+border:1px solid #ddd;
+border-radius:10px;
+font-size:15px;
+}
+button{
+width:100%;
+padding:12px;
+background:#0284c7;
+color:white;
+border:none;
+border-radius:10px;
+font-weight:bold;
+cursor:pointer;
+font-size:16px;
+margin-top:8px;
+}
+button.green{
+background:#22c55e;
+}
+button.red{
+background:#ef4444;
+}
+.symptoms{
+display:flex;
+flex-wrap:wrap;
+gap:8px;
+margin:10px 0;
+}
+.symptoms span{
+background:#e0f2fe;
+padding:8px 12px;
+border-radius:20px;
+cursor:pointer;
+font-size:14px;
+}
+.symptoms span.active{
+background:#0284c7;
+color:white;
+}
+.doctors{
+display:grid;
+grid-template-columns:repeat(auto-fill,minmax(200px,1fr));
+gap:12px;
+margin-top:10px;
+}
+.doc{
+background:#f8fafc;
+padding:15px;
+border-radius:12px;
+text-align:center;
+border:2px solid #e2e8f0;
+cursor:pointer;
+}
+.doc.active{
+border-color:#0284c7;
+background:#e0f2fe;
+}
+.result{
+background:#dcfce7;
+padding:15px;
+border-radius:12px;
+margin-top:12px;
+display:none;
+}
+.booking-list{
+margin-top:10px;
+}
+.booking{
+background:#f8fafc;
+padding:12px;
+border-radius:10px;
+margin:6px 0;
+display:flex;
+justify-content:space-between;
+}
+footer{
+background:#0f172a;
+color:white;
+text-align:center;
+padding:20px;
+margin-top:20px;
+}
+footer p{
+margin:4px 0;
+font-size:14px;
+opacity:.9;
+}
 </style>
 </head>
 <body>
 
-<div class="emergency">🚨 طوارئ؟ <button onclick="window.open('https://wa.me/201012345678?text=حالة طارئة في عيادة أمنية')">اتصلي بالطوارئ واتساب</button> | 📞 01012345678</div>
-
 <header>
-<h1>🏥 عيادة أمنية - ULTRA PRO</h1>
-<p>نظام حجز طبي ذكي - أجا | الدقهلية</p>
-<p style="margin-top:8px"><button onclick="login()" style="background:white;color:#111">👤 <span id="userName">تسجيل دخول المريض</span></button></p>
+<h1>
+🏥 Omnia Clinic
+</h1>
+<p>
+Smart Medical Booking System - Demo Project
+</p>
 </header>
 
-<div class="offer">🔥 الكشف الأول خصم 20% بكود: OMNIA20 | كشف الأطفال مجاني يوم الجمعة</div>
-
-<div class="symptom">
-<h3>🤔 مش عارفة تروحي لأنهي دكتور؟</h3>
-<p>اختاري الأعراض وهنرشحلك التخصص الصح</p>
-<select id="symptomSelect" onchange="suggest()"><option value="">اختاري الأعراض...</option><option value="باطنة">سخونية - مغص - صداع - ضغط وسكر</option><option value="أطفال">سخونية طفل - كحة - ترجيع - تطعيم</option><option value="أسنان">وجع سنان - التهاب لثة - تبييض</option><option value="نسا">متابعة حمل - تأخر حمل - سونار</option></select>
-<p id="suggestResult" style="font-weight:bold;color:#0284c7;margin-top:8px"></p>
-</div>
-
 <div class="info">
-<h3>📍 عيادة أمنية - أجا</h3>
-<p>📌 أجا - الدقهلية - شارع البحر الرئيسي - بجوار الموقف - الدور الثاني</p>
-<p>📞 01012345678 | ⏰ 10 ص - 10 م | 🚨 طوارئ 24 ساعة</p>
+<b>
+📍 Address:
+</b>
+123 Demo Street, Mansoura, Dakahlia, Egypt - Demo Only
+<br>
+<b>
+📞 Phone:
+</b>
+01000000000 - Demo Number
+<br>
+<b>
+⏰ Working Hours:
+</b>
+10 AM - 10 PM Daily
 </div>
 
-<div class="stats">
-<div class="stat"><b id="statDoc">0</b>دكتور</div>
-<div class="stat"><b id="statBook">0</b>حجز</div>
-<div class="stat"><b id="statToday">0</b>حجز النهاردة</div>
-<div class="stat"><b>4.9 ⭐</b>تقييم العيادة</div>
+<div class="container">
+
+<div class="card">
+<h2>
+👤 Patient Information
+</h2>
+<input id="name" placeholder="Full Name - Example: Ahmed Mohamed">
+<input id="phone" placeholder="Phone Number - Example: 01000000000">
+<input id="age" type="number" placeholder="Age">
 </div>
 
-<div class="tabs">
-<button class="active" id="tab1" onclick="showTab('docs',this)">👨‍⚕️ الدكاترة</button>
-<button id="tab2" onclick="showTab('history',this)">📂 ملف المريض (<span id="histCount">0</span>)</button>
+<div class="card">
+<h2>
+🩺 What Are Your Symptoms?
+</h2>
+<p>
+Click on your symptoms:
+</p>
+<div class="symptoms" id="symptoms">
+<span onclick="pickSymptom(this,'Fever')">🤒 Fever</span>
+<span onclick="pickSymptom(this,'Headache')">🤕 Headache</span>
+<span onclick="pickSymptom(this,'Cough')">😷 Cough</span>
+<span onclick="pickSymptom(this,'Stomach Pain')">🤢 Stomach Pain</span>
+<span onclick="pickSymptom(this,'Skin Problem')">🩹 Skin Problem</span>
+<span onclick="pickSymptom(this,'Tooth Pain')">🦷 Tooth Pain</span>
+<span onclick="pickSymptom(this,'Eye Problem')">👁️ Eye Problem</span>
+<span onclick="pickSymptom(this,'Back Pain')">🦴 Back Pain</span>
+<span onclick="pickSymptom(this,'Allergy')">🤧 Allergy</span>
+</div>
+<div class="result" id="suggest">
+<b>
+Suggested Doctor:
+</b>
+<span id="suggestText"></span>
+</div>
 </div>
 
-<div id="docsSection">
-<div class="topbar">
-<input id="search" oninput="render()" placeholder="🔍 دور على دكتور...">
-<select id="sort" onchange="render()"><option value="new">الأحدث</option><option value="rate">الأعلى تقييماً</option><option value="low">الأرخص</option><option value="high">الأغلى</option></select>
-<select id="priceF" onchange="render()"><option value="all">كل الأسعار</option><option value="0-180">أقل من 180</option><option value="180-250">180 - 250</option><option value="250-9999">أعلى من 250</option></select>
+<div class="card">
+<h2>
+👨‍⚕️ Choose Doctor
+</h2>
+<div class="doctors">
+<div class="doc" onclick="pickDoctor(this,'Dr. Ahmed - General')">
+<h3>Dr. Ahmed</h3>
+<p>General Medicine</p>
+<p>⭐ 4.8 - 200 EGP</p>
 </div>
-<div class="cats">
-<button class="active" onclick="setCat('الكل',this)">الكل ✨</button>
-<button onclick="setCat('باطنة',this)">🩺 باطنة</button>
-<button onclick="setCat('أطفال',this)">👶 أطفال</button>
-<button onclick="setCat('أسنان',this)">🦷 أسنان</button>
-<button onclick="setCat('نسا',this)">🤰 نسا</button>
-<button onclick="showFav()">❤️ المفضلة (<span id="favCount">0</span>)</button>
+<div class="doc" onclick="pickDoctor(this,'Dr. Sara - Dentist')">
+<h3>Dr. Sara</h3>
+<p>Dentist</p>
+<p>⭐ 4.9 - 250 EGP</p>
 </div>
-<div class="menu" id="menu"></div>
+<div class="doc" onclick="pickDoctor(this,'Dr. Omar - Dermatology')">
+<h3>Dr. Omar</h3>
+<p>Dermatology</p>
+<p>⭐ 4.7 - 220 EGP</p>
 </div>
-
-<div id="historySection" style="display:none">
-<div class="info"><h3>📂 ملفك الطبي</h3><div id="historyList">لسه مفيش حجوزات</div><button onclick="clearHistory()" style="background:#ef4444">مسح الملف 🗑️</button></div>
+<div class="doc" onclick="pickDoctor(this,'Dr. Nour - Pediatrics')">
+<h3>Dr. Nour</h3>
+<p>Pediatrics</p>
+<p>⭐ 5.0 - 180 EGP</p>
 </div>
-
-<div class="about">
-<h3>👩‍💻 عن المطورة</h3>
-<p><b>أمنية إبراهيم</b> - من أجا، الدقهلية</p>
-<p>Front-End Developer | HTML - CSS - JavaScript - LocalStorage</p>
-<p>مشاريعي: 1- مطعم Omnia Pro | 2- فاشون Pro Max | 3- عيادة Ultra Pro</p>
-<p>في المشروع ده: ترشيح بالتخصص من الأعراض، مواعيد بتتقفل لو اتحجزت، تقييم، ملف مريض، طوارئ</p>
-<a href="https://github.com/omniaibrahimfarouk2002-hub" target="_blank"><button>شوف شغلي على GitHub</button></a>
+<div class="doc" onclick="pickDoctor(this,'Dr. Laila - Eye')">
+<h3>Dr. Laila</h3>
+<p>Eye Specialist</p>
+<p>⭐ 4.8 - 230 EGP</p>
 </div>
-
-<div class="admin">
-<h3>🔐 لوحة تحكم - أضيفي دكتور</h3>
-<input id="newName" placeholder="اسم الدكتور">
-<input id="newPrice" type="number" placeholder="سعر الكشف">
-<input id="newImg" placeholder="لينك صورة الدكتور">
-<select id="newCat"><option>باطنة</option><option>أطفال</option><option>أسنان</option><option>نسا</option></select><br>
-<button onclick="addDoctor()">إضافة ➕</button>
+<div class="doc" onclick="pickDoctor(this,'Dr. Karim - Orthopedic')">
+<h3>Dr. Karim</h3>
+<p>Orthopedic</p>
+<p>⭐ 4.9 - 260 EGP</p>
 </div>
-
-<div class="form-box">
-<h3>📝 بيانات الحجز</h3>
-<input id="name" placeholder="اسم المريض"><br>
-<input id="phone" placeholder="رقم موبايلك"><br>
-<input id="age" type="number" placeholder="السن"><br>
-<input type="date" id="date"><br>
-<input id="discount" placeholder="كود الخصم - OMNIA20"><br>
-<select id="pay"><option>الدفع في العيادة - كاش</option><option>فودافون كاش</option><option>فيزا</option></select>
+</div>
 </div>
 
-<div id="bookings">
-<h3>📅 حجوزاتك - اختارتي: <span id="selectedDoc" style="color:#0284c7">لسه مختارتيش</span> | الميعاد: <span id="selectedSlot" style="color:#16a34a">لسه</span></h3>
-<div id="items">لسه محجزتيش</div>
-<button onclick="confirmBook()" style="background:#22c55e">تأكيد الحجز ✅</button>
-<button onclick="bookWhats()">احجزي واتساب 📱</button>
+<div class="card">
+<h2>
+📅 Choose Date & Time Slot
+</h2>
+<input id="date" type="date">
+<select id="slot">
+<option>10:00 AM</option>
+<option>11:00 AM</option>
+<option>12:00 PM</option>
+<option>04:00 PM</option>
+<option>05:00 PM</option>
+<option>07:00 PM</option>
+<option>08:00 PM</option>
+</select>
+<button class="green" onclick="book()">
+✅ Confirm Booking
+</button>
+<div class="booking-list" id="myBookings"></div>
 </div>
 
-<div id="modal" onclick="closeModal()"><div id="modalBox" onclick="event.stopPropagation()"></div></div>
+<div class="card">
+<h2>
+🚨 Emergency?
+</h2>
+<p>
+If you have an emergency, call our demo emergency number.
+</p>
+<button class="red" onclick="emergency()">
+🚨 Call Emergency - Demo
+</button>
+</div>
+
+<div class="card">
+<h2>
+📁 My Patient File
+</h2>
+<p id="fileText">
+No bookings yet. Book now to create your file.
+</p>
+<button onclick="sendWhatsApp()">
+📲 Send Booking on WhatsApp
+</button>
+</div>
+
+<div class="card">
+<h2>
+❓ FAQ
+</h2>
+<p>
+<b>Can I cancel?</b> Yes, call 01000000000 - Demo Number
+</p>
+<br>
+<p>
+<b>Do I need to pay online?</b> No, pay at clinic. This is a demo.
+</p>
+</div>
+
+</div>
+
+<footer>
+<p>
+Omnia Clinic - Demo Project by Omnia Ibrahim
+</p>
+<p>
+📍 123 Demo Street, Mansoura, Egypt - Demo Address Only
+</p>
+<p>
+📞 01000000000 - Demo Number Only
+</p>
+<p>
+This is a demo website, not a real clinic.
+</p>
+</footer>
 
 <script>
-let defaultDocs=[
-{id:1,name:'د. أحمد علي',cat:'باطنة',price:200,rate:4.9,exp:'10 سنين',desc:'استشاري باطنة وجهاز هضمي',img:'https://images.unsplash.com/photo-1612349317150-e413f6a5b16d?w=500',reviews:[{n:'أمنية',t:'دكتور ممتاز وبيسمع كويس ⭐⭐⭐⭐⭐'},{n:'محمد',t:'التشخيص صح والكشف سريع'}]},
-{id:2,name:'د. سارة محمد',cat:'أطفال',price:180,rate:5,exp:'8 سنين',desc:'أخصائية أطفال وحديثي ولادة',img:'https://images.unsplash.com/photo-1559839734-2b71ea197ec2?w=500',reviews:[{n:'نور',t:'بنتى خفت على ايدها الحمد لله'}]},
-{id:3,name:'د. محمود حسن',cat:'أسنان',price:250,rate:4.8,exp:'12 سنة',desc:'زراعة وتقويم وتبييض أسنان',img:'https://images.unsplash.com/photo-1622253692010-333f2da6031d?w=500',reviews:[{n:'علي',t:'شغله نضيف جدا'}]},
-{id:4,name:'د. نور الهدى',cat:'نسا',price:220,rate:4.9,exp:'9 سنين',desc:'متابعة حمل وولادة، سونار رباعي',img:'https://images.unsplash.com/photo-1594824476967-48c8b964273f?w=500',reviews:[{n:'فاطمة',t:'تابعت معاها حملي كله'}]},
-{id:5,name:'د. كريم سامي',cat:'باطنة',price:150,rate:4.7,exp:'6 سنين',desc:'باطنة عامة وسكر وضغط',img:'https://images.unsplash.com/photo-1537368910025-700350fe46c7?w=500',reviews:[]},
-{id:6,name:'د. مريم عادل',cat:'أطفال',price:160,rate:4.8,exp:'7 سنين',desc:'أطفال وحساسية صدر',img:'https://images.unsplash.com/photo-1582750433449-648ed127bb54?w=500',reviews:[]},
-];
-let docs = JSON.parse(localStorage.getItem('omniaClinic')) || defaultDocs;
-let bookings = JSON.parse(localStorage.getItem('omniaBookings')) || [];
-let favs = JSON.parse(localStorage.getItem('omniaClinicFav')) || [];
-let currentCat='الكل'; let onlyFav=false; let selectedId=null; let selectedSlot=null;
-let allSlots=['10:00 ص','12:00 ظ','2:00 ع','4:00 ع','6:00 م','8:00 م'];
-function save(){localStorage.setItem('omniaClinic',JSON.stringify(docs)); localStorage.setItem('omniaBookings',JSON.stringify(bookings)); localStorage.setItem('omniaClinicFav',JSON.stringify(favs));}
-function login(){let n=prompt('اكتبي اسمك:'); if(n){document.getElementById('userName').innerText='أهلاً يا '+n; document.getElementById('name').value=n;}}
-function suggest(){let v=document.getElementById('symptomSelect').value; if(!v) return; document.getElementById('suggestResult').innerText='نرشحلك تخصص: '+v+' - دوسي عليه من فوق 👆'; setCat(v, document.querySelector('.cats button')); }
-function showTab(t,btn){document.querySelectorAll('.tabs button').forEach(b=>b.classList.remove('active')); btn.classList.add('active'); document.getElementById('docsSection').style.display=t=='docs'?'block':'none'; document.getElementById('historySection').style.display=t=='history'?'block':'none'; renderHistory();}
-function setCat(c,btn){currentCat=c; onlyFav=false; if(btn){document.querySelectorAll('.cats button').forEach(b=>b.classList.remove('active')); btn.classList.add('active');} render();}
-function showFav(){onlyFav=true; render();}
-function isBooked(docId,slot,date){ return bookings.some(b=>b.docId==docId && b.time==slot && b.date==date); }
-function render(){
-let q=document.getElementById('search').value.toLowerCase(); let sort=document.getElementById('sort').value; let pf=document.getElementById('priceF').value; let date=document.getElementById('date').value;
-let list=docs.filter(d=>(currentCat=='الكل'||d.cat==currentCat) && d.name.toLowerCase().includes(q) && (!onlyFav || favs.includes(d.id)));
-if(pf!='all'){let a=Number(pf.split('-')[0]), b=Number(pf.split('-')[1]); list=list.filter(d=>d.price>=a && d.price<=b);}
-if(sort=='rate') list.sort((a,b)=>b.rate-a.rate); if(sort=='low') list.sort((a,b)=>a.price-b.price); if(sort=='high') list.sort((a,b)=>b.price-a.price);
-document.getElementById('favCount').innerText=favs.length;
-document.getElementById('statDoc').innerText=docs.length;
-document.getElementById('statBook').innerText=bookings.length;
-let today=new Date().toISOString().split('T')[0];
-document.getElementById('statToday').innerText=bookings.filter(b=>b.date==today).length;
-document.getElementById('histCount').innerText=bookings.length;
-document.getElementById('menu').innerHTML=list.map(d=>`
-<div class="card">
-<div style="position:absolute;top:10px;left:10px;background:white;width:36px;height:36px;border-radius:50%;display:flex;align-items:center;justify-content:center;cursor:pointer;z-index:2" onclick="toggleFav(${d.id})">${favs.includes(d.id)?'❤️':'🤍'}</div>
-<div onclick="openModal(${d.id})"><img src="${d.img}"><h3>${d.name}</h3><p>${d.desc}</p><p>⭐ ${d.rate} | ${d.exp} خبرة | ${d.cat}</p><span class="badge">متاح النهاردة ✅</span><div class="price">الكشف: ${d.price} جنيه</div></div>
-<div class="slots">${allSlots.map(s=>{let booked=isBooked(d.id,s,date); return `<span class="${selectedId==d.id && selectedSlot==s?'sel':''} ${booked?'booked':''}" onclick="${booked?'':`pickSlot(${d.id},'${s}',this)`}">${s} ${booked?'❌':''}</span>`}).join('')}</div>
-<button onclick="selectDoc(${d.id})">احجزي مع الدكتور ده 📅</button>
-<button onclick="deleteDoc(${d.id})" style="background:#999">حذف</button>
-</div>`).join('')||'<p style="text-align:center;width:100%">مفيش نتيجة 😢</p>';
-renderBookings(); renderHistory();
+let selectedSymptoms = [];
+let selectedDoctor = "";
+let lastBooking = null;
+function pickSymptom(el, txt) {
+el.classList.toggle('active');
+if (selectedSymptoms.includes(txt)) {
+selectedSymptoms = selectedSymptoms.filter(s => s !== txt);
+} else {
+selectedSymptoms.push(txt);
 }
-function pickSlot(docId,slot,el){ selectedId=docId; selectedSlot=slot; let d=docs.find(x=>x.id==docId); document.getElementById('selectedDoc').innerText=d.name; document.getElementById('selectedSlot').innerText=slot; render(); }
-function openModal(id){let d=docs.find(x=>x.id==id); document.getElementById('modal').style.display='flex'; document.getElementById('modalBox').innerHTML=`<img src="${d.img}"><h2 style="margin:10px 0">${d.name}</h2><p>${d.desc}</p><p>⭐ ${d.rate} | ${d.exp} | ${d.cat}</p><p style="color:#0284c7;font-weight:bold;margin:10px">الكشف: ${d.price} جنيه</p><p>📍 أجا - شارع البحر | ⏰ 10 ص - 10 م</p><h3 style="margin-top:12px">آراء المرضى:</h3>${d.reviews.map(r=>`<div class="review"><b>${r.n}:</b> ${r.t}</div>`).join('')||'<p>لسه مفيش تقييمات</p>'}<input id="revText" placeholder="اكتبي رأيك في الدكتور..." style="padding:10px;width:90%;border-radius:10px;border:1px solid #ddd;margin:8px"><br><button onclick="addReview(${d.id})">ابعت التقييم ⭐</button><br><button onclick="selectDoc(${d.id});closeModal()">احجزي دلوقتي 📅</button> <button onclick="closeModal()" style="background:#999">قفل</button>`;}
-function closeModal(){document.getElementById('modal').style.display='none';}
-function addReview(id){let t=document.getElementById('revText').value; if(!t){alert('اكتبي رأيك');return;} let d=docs.find(x=>x.id==id); d.reviews.push({n:document.getElementById('name').value||'زائر', t:t}); save(); alert('شكراً على تقييمك ❤️'); closeModal(); render();}
-function toggleFav(id){ if(favs.includes(id)) favs=favs.filter(x=>x!=id); else favs.push(id); save(); render(); }
-function selectDoc(id){selectedId=id; let d=docs.find(x=>x.id==id); document.getElementById('selectedDoc').innerText=d.name+' - '+d.price+' جنيه'; document.getElementById('bookings').scrollIntoView({behavior:'smooth'}); alert('اختارتي '+d.name+' ✅ اختاري الميعاد وكملي بياناتك');}
-function addDoctor(){let n=document.getElementById('newName').value; let p=Number(document.getElementById('newPrice').value); let img=document.getElementById('newImg').value||'https://images.unsplash.com/photo-1612349317150-e413f6a5b16d?w=500'; let c=document.getElementById('newCat').value; if(!n||!p){alert('اكتبي الاسم والسعر');return;} docs.push({id:Date.now(),name:n,cat:c,price:p,rate:5,exp:'خبرة ممتازة',desc:'دكتور جديد في عيادة أمنية',img:img,reviews:[]}); save(); render(); alert('اتضاف ✅');}
-function deleteDoc(id){ if(confirm('تمسحي الدكتور؟')){ docs=docs.filter(d=>d.id!=id); save(); render(); } }
-function renderBookings(){
-if(!bookings.length){document.getElementById('items').innerHTML='لسه محجزتيش'; return;}
-document.getElementById('items').innerHTML=bookings.map((b,i)=>`<div class="book-item"><span><b>${b.doc}</b> - ${b.name} - ${b.date} - ${b.time} - ${b.price} ج</span><span><button onclick="cancelBook(${i})" style="background:#ef4444">إلغاء ❌</button></span></div>`).join('');
+let sug = document.getElementById('suggest');
+if (selectedSymptoms.length > 0) {
+sug.style.display = 'block';
+let map = {
+'Fever': 'Dr. Ahmed - General',
+'Headache': 'Dr. Ahmed - General',
+'Cough': 'Dr. Ahmed - General',
+'Stomach Pain': 'Dr. Ahmed - General',
+'Skin Problem': 'Dr. Omar - Dermatology',
+'Tooth Pain': 'Dr. Sara - Dentist',
+'Eye Problem': 'Dr. Laila - Eye',
+'Back Pain': 'Dr. Karim - Orthopedic',
+'Allergy': 'Dr. Ahmed - General'
+};
+document.getElementById('suggestText').innerText = map[selectedSymptoms[0]] || 'Dr. Ahmed - General';
+} else {
+sug.style.display = 'none';
 }
-function renderHistory(){
-if(!bookings.length){document.getElementById('historyList').innerHTML='لسه مفيش حجوزات'; return;}
-document.getElementById('historyList').innerHTML=bookings.map(b=>`<div style="background:#f8fafc;padding:10px;border-radius:10px;margin:5px;text-align:right">👨‍⚕️ <b>${b.doc}</b> | 📅 ${b.date} - ${b.time} | 👤 ${b.name} - سن ${b.age||''} | 💰 ${b.price} ج | ${b.pay}</div>`).join('');
 }
-function clearHistory(){ if(confirm('تمسحي كل الملف؟')){ bookings=[]; save(); render(); } }
-function getData(){ let d=docs.find(x=>x.id==selectedId); return {doc:d?d.name:'', price:d?d.price:0, n:document.getElementById('name').value, p:document.getElementById('phone').value, age:document.getElementById('age').value, date:document.getElementById('date').value, pay:document.getElementById('pay').value, code:document.getElementById('discount').value.trim().toUpperCase()}; }
-function confirmBook(){ let o=getData(); if(!selectedId){alert('اختاري دكتور الأول');return;} if(!selectedSlot){alert('اختاري ميعاد من المواعيد اللي فوق');return;} if(!o.n||!o.p||!o.date){alert('اكتبي اسمك ورقمك واليوم');return;} if(isBooked(selectedId,selectedSlot,o.date)){alert('الميعاد ده اتحجز خلاص، اختاري ميعاد تاني');return;} let final=o.code=='OMNIA20'? Math.round(o.price*0.8):o.price; bookings.push({docId:selectedId, doc:o.doc, name:o.n, age:o.age, date:o.date, time:selectedSlot, price:final, pay:o.pay}); save(); alert('تم الحجز يا '+o.n+' ❤️\nمع: '+o.doc+'\nاليوم: '+o.date+' الساعة: '+selectedSlot+'\nالسعر: '+final+' جنيه'); selectedSlot=null; render(); }
-function cancelBook(i){ if(confirm('تلغي الحجز؟')){ bookings.splice(i,1); save(); render(); } }
-function bookWhats(){ let o=getData(); if(!selectedId){alert('اختاري دكتور');return;} if(!o.n||!o.p||!o.date){alert('اكتبي بياناتك');return;} let msg=`حجز جديد في عيادة أمنية%0Aالدكتور: ${o.doc}%0Aالمريض: ${o.n}%0Aالرقم: ${o.p}%0Aاليوم: ${o.date} الساعة: ${selectedSlot||''}%0Aالسعر: ${o.price} جنيه`; window.open(`https://wa.me/201012345678?text=${msg}`,'_blank'); }
-document.getElementById('date').value=new Date().toISOString().split('T')[0];
-document.getElementById('date').addEventListener('change', render);
-render();
+function pickDoctor(el, name) {
+document.querySelectorAll('.doc').forEach(d => d.classList.remove('active'));
+el.classList.add('active');
+selectedDoctor = name;
+}
+function book() {
+let name = document.getElementById('name').value;
+let phone = document.getElementById('phone').value;
+let age = document.getElementById('age').value;
+let date = document.getElementById('date').value;
+let slot = document.getElementById('slot').value;
+if (!name || !phone || !date || !selectedDoctor) {
+alert("Please fill name, phone, date and choose doctor");
+return;
+}
+lastBooking = { name, phone, age, date, slot, doctor: selectedDoctor, symptoms: selectedSymptoms.join(', ') };
+document.getElementById('myBookings').innerHTML += `<div class="booking"><span><b>${name}</b> - ${selectedDoctor} - ${date} ${slot}</span><b>✅</b></div>`;
+document.getElementById('fileText').innerText = `Patient: ${name} | Age: ${age} | Phone: ${phone} | Doctor: ${selectedDoctor} | Date: ${date} ${slot} | Symptoms: ${selectedSymptoms.join(', ') || 'None'}`;
+alert("Booking Confirmed for " + name);
+}
+function emergency() {
+alert("This is a demo. Emergency Number: 01000000000 - Demo Only");
+}
+function sendWhatsApp() {
+if (!lastBooking) {
+alert("Please book first");
+return;
+}
+let msg = `Hello Omnia Clinic! I want to confirm my booking:%0AName: ${lastBooking.name}%0APhone: ${lastBooking.phone}%0ADoctor: ${lastBooking.doctor}%0ADate: ${lastBooking.date} ${lastBooking.slot}%0ASymptoms: ${lastBooking.symptoms}`;
+window.open("https://wa.me/201000000000?text=" + msg, "_blank");
+}
 </script>
 </body>
 </html>
