@@ -1,391 +1,111 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" dir="ltr">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>
-Omnia Clinic - Smart Medical Booking
-</title>
-<style>
-*{
-margin:0;
-padding:0;
-box-sizing:border-box;
-font-family:Arial;
-}
-body{
-background:#f0f9ff;
-}
-header{
-background:#0284c7;
-color:white;
-padding:25px;
-text-align:center;
-}
-header h1{
-font-size:32px;
-}
-header p{
-margin-top:5px;
-opacity:.9;
-}
-.info{
-background:white;
-padding:15px;
-text-align:center;
-border-bottom:2px solid #bae6fd;
-}
-.info b{
-color:#0284c7;
-}
-.container{
-max-width:900px;
-margin:auto;
-padding:15px;
-}
-.card{
-background:white;
-padding:20px;
-border-radius:15px;
-box-shadow:0 3px 10px #ddd;
-margin-bottom:15px;
-}
-.card h2{
-color:#0284c7;
-margin-bottom:12px;
-}
-input,
-select{
-width:100%;
-padding:12px;
-margin:7px 0;
-border:1px solid #ddd;
-border-radius:10px;
-font-size:15px;
-}
-button{
-width:100%;
-padding:12px;
-background:#0284c7;
-color:white;
-border:none;
-border-radius:10px;
-font-weight:bold;
-cursor:pointer;
-font-size:16px;
-margin-top:8px;
-}
-button.green{
-background:#22c55e;
-}
-button.red{
-background:#ef4444;
-}
-.symptoms{
-display:flex;
-flex-wrap:wrap;
-gap:8px;
-margin:10px 0;
-}
-.symptoms span{
-background:#e0f2fe;
-padding:8px 12px;
-border-radius:20px;
-cursor:pointer;
-font-size:14px;
-}
-.symptoms span.active{
-background:#0284c7;
-color:white;
-}
-.doctors{
-display:grid;
-grid-template-columns:repeat(auto-fill,minmax(200px,1fr));
-gap:12px;
-margin-top:10px;
-}
-.doc{
-background:#f8fafc;
-padding:15px;
-border-radius:12px;
-text-align:center;
-border:2px solid #e2e8f0;
-cursor:pointer;
-}
-.doc.active{
-border-color:#0284c7;
-background:#e0f2fe;
-}
-.result{
-background:#dcfce7;
-padding:15px;
-border-radius:12px;
-margin-top:12px;
-display:none;
-}
-.booking-list{
-margin-top:10px;
-}
-.booking{
-background:#f8fafc;
-padding:12px;
-border-radius:10px;
-margin:6px 0;
-display:flex;
-justify-content:space-between;
-}
-footer{
-background:#0f172a;
-color:white;
-text-align:center;
-padding:20px;
-margin-top:20px;
-}
-footer p{
-margin:4px 0;
-font-size:14px;
-opacity:.9;
-}
-</style>
+<title>Omnia Clinic | Mansoura</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
+<script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+<script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
 </head>
 <body>
+<div id="root"></div>
+<script type="text/babel">
+const { useState } = React;
+function App() {
+  const [cart, setCart] = useState({});
+  const [filter, setFilter] = useState('All');
+  const [search, setSearch] = useState('');
+  const [fav, setFav] = useState([]);
+  const [name, setName] = useState('');
+  const [phone, setPhone] = useState('');
+  const [promo, setPromo] = useState('');
+  const [dark, setDark] = useState(false);
 
-<header>
-<h1>
-🏥 Omnia Clinic
-</h1>
-<p>
-Smart Medical Booking System - Demo Project
-</p>
-</header>
+  const services = [
+    { id:1, name:"General Checkup", cat:"General", price:200, img:"https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?w=400", desc:"Full body checkup + report" },
+    { id:2, name:"Dental Cleaning", cat:"Dental", price:350, img:"https://images.unsplash.com/photo-1606811841689-23dfddce3e95?w=400", desc:"Cleaning + polishing" },
+    { id:3, name:"Teeth Whitening", cat:"Dental", price:800, img:"https://images.unsplash.com/photo-1609840114035-3c981b782dfe?w=400", desc:"Laser whitening session" },
+    { id:4, name:"Skin Care Session", cat:"Skin", price:450, img:"https://images.unsplash.com/photo-1570172619644-dfd03ed5d881?w=400", desc:"Facial + skin analysis" },
+    { id:5, name:"Laser Hair Removal", cat:"Skin", price:600, img:"https://images.unsplash.com/photo-1512290923902-8a9f81dc236c?w=400", desc:"One session - full body" },
+    { id:6, name:"Kids Checkup", cat:"Kids", price:180, img:"https://images.unsplash.com/photo-1631217868264-e5b90bb7e133?w=400", desc:"Pediatric checkup" },
+  ];
 
-<div class="info">
-<b>
-📍 Address:
-</b>
-123 Demo Street, Mansoura, Dakahlia, Egypt - Demo Only
-<br>
-<b>
-📞 Phone:
-</b>
-01000000000 - Demo Number
-<br>
-<b>
-⏰ Working Hours:
-</b>
-10 AM - 10 PM Daily
-</div>
+  const filtered = services.filter(m => (filter==='All' || m.cat===filter) && m.name.toLowerCase().includes(search.toLowerCase()));
+  const totalItems = Object.values(cart).reduce((a,b)=>a+b,0);
+  let subtotal = Object.entries(cart).reduce((sum,[id,qty]) => sum + services.find(m=>m.id==id).price*qty, 0);
+  let discount = promo==='OMNIA10' ? subtotal*0.1 : 0;
+  let fee = subtotal>0 ? 30 : 0;
+  let total = subtotal - discount + fee;
 
-<div class="container">
+  const changeQty = (id, delta) => {
+    setCart(prev => {
+      let n = {...prev};
+      n[id] = (n[id]||0)+delta;
+      if(n[id]<=0) delete n[id];
+      return n;
+    });
+  };
+  const toggleFav = (id) => setFav(prev => prev.includes(id) ? prev.filter(x=>x!==id) : [...prev, id]);
 
-<div class="card">
-<h2>
-👤 Patient Information
-</h2>
-<input id="name" placeholder="Full Name - Example: Ahmed Mohamed">
-<input id="phone" placeholder="Phone Number - Example: 01000000000">
-<input id="age" type="number" placeholder="Age">
-</div>
+  const order = () => {
+    let msg = `Hello Omnia Clinic - Mansoura%0AName: ${name}%0APhone: ${phone}%0A%0A`;
+    Object.entries(cart).forEach(([id,qty])=>{ let it=services.find(m=>m.id==id); msg+=`${it.name} x${qty} = ${it.price*qty} EGP%0A`; });
+    msg+=`%0ADiscount: ${discount} - Booking Fee: ${fee}%0ATotal: ${total} EGP`;
+    window.open(`https://wa.me/201068348772?text=${msg}`,'_blank');
+  };
 
-<div class="card">
-<h2>
-🩺 What Are Your Symptoms?
-</h2>
-<p>
-Click on your symptoms:
-</p>
-<div class="symptoms" id="symptoms">
-<span onclick="pickSymptom(this,'Fever')">🤒 Fever</span>
-<span onclick="pickSymptom(this,'Headache')">🤕 Headache</span>
-<span onclick="pickSymptom(this,'Cough')">😷 Cough</span>
-<span onclick="pickSymptom(this,'Stomach Pain')">🤢 Stomach Pain</span>
-<span onclick="pickSymptom(this,'Skin Problem')">🩹 Skin Problem</span>
-<span onclick="pickSymptom(this,'Tooth Pain')">🦷 Tooth Pain</span>
-<span onclick="pickSymptom(this,'Eye Problem')">👁️ Eye Problem</span>
-<span onclick="pickSymptom(this,'Back Pain')">🦴 Back Pain</span>
-<span onclick="pickSymptom(this,'Allergy')">🤧 Allergy</span>
-</div>
-<div class="result" id="suggest">
-<b>
-Suggested Doctor:
-</b>
-<span id="suggestText"></span>
-</div>
-</div>
+  return (
+    <div className={dark ? "min-h-screen bg-gray-900 text-white pb-10" : "min-h-screen bg-teal-50 pb-10"}>
+      <div className="bg-teal-600 text-white p-6 text-center rounded-b-3xl">
+        <h1 className="text-3xl font-bold">Omnia Clinic 🩺</h1>
+        <p>Mansoura, Dakahlia | 01068348772</p>
+        <button onClick={()=>setDark(!dark)} className="bg-black/20 px-4 py-1 rounded-full mt-2 text-sm">{dark ? "☀️ Light" : "🌙 Dark"}</button>
+      </div>
 
-<div class="card">
-<h2>
-👨‍⚕️ Choose Doctor
-</h2>
-<div class="doctors">
-<div class="doc" onclick="pickDoctor(this,'Dr. Ahmed - General')">
-<h3>Dr. Ahmed</h3>
-<p>General Medicine</p>
-<p>⭐ 4.8 - 200 EGP</p>
-</div>
-<div class="doc" onclick="pickDoctor(this,'Dr. Sara - Dentist')">
-<h3>Dr. Sara</h3>
-<p>Dentist</p>
-<p>⭐ 4.9 - 250 EGP</p>
-</div>
-<div class="doc" onclick="pickDoctor(this,'Dr. Omar - Dermatology')">
-<h3>Dr. Omar</h3>
-<p>Dermatology</p>
-<p>⭐ 4.7 - 220 EGP</p>
-</div>
-<div class="doc" onclick="pickDoctor(this,'Dr. Nour - Pediatrics')">
-<h3>Dr. Nour</h3>
-<p>Pediatrics</p>
-<p>⭐ 5.0 - 180 EGP</p>
-</div>
-<div class="doc" onclick="pickDoctor(this,'Dr. Laila - Eye')">
-<h3>Dr. Laila</h3>
-<p>Eye Specialist</p>
-<p>⭐ 4.8 - 230 EGP</p>
-</div>
-<div class="doc" onclick="pickDoctor(this,'Dr. Karim - Orthopedic')">
-<h3>Dr. Karim</h3>
-<p>Orthopedic</p>
-<p>⭐ 4.9 - 260 EGP</p>
-</div>
-</div>
-</div>
+      <input value={search} onChange={e=>setSearch(e.target.value)} placeholder="🔍 Search for a service..." className="block w-[90%] max-w-3xl mx-auto mt-4 p-3 rounded-xl border text-black" />
 
-<div class="card">
-<h2>
-📅 Choose Date & Time Slot
-</h2>
-<input id="date" type="date">
-<select id="slot">
-<option>10:00 AM</option>
-<option>11:00 AM</option>
-<option>12:00 PM</option>
-<option>04:00 PM</option>
-<option>05:00 PM</option>
-<option>07:00 PM</option>
-<option>08:00 PM</option>
-</select>
-<button class="green" onclick="book()">
-✅ Confirm Booking
-</button>
-<div class="booking-list" id="myBookings"></div>
-</div>
+      <div className="flex gap-2 justify-center mt-3 flex-wrap px-4">
+        {['All','General','Dental','Skin','Kids'].map(c=>(
+          <button key={c} onClick={()=>setFilter(c)} className={filter===c ? "bg-teal-600 text-white px-4 py-2 rounded-full font-bold" : "bg-white text-black px-4 py-2 rounded-full shadow"}>{c}</button>
+        ))}
+      </div>
 
-<div class="card">
-<h2>
-🚨 Emergency?
-</h2>
-<p>
-If you have an emergency, call our demo emergency number.
-</p>
-<button class="red" onclick="emergency()">
-🚨 Call Emergency - Demo
-</button>
-</div>
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4 p-4 max-w-3xl mx-auto">
+        {filtered.map(item=>(
+          <div key={item.id} className="bg-white text-black rounded-2xl shadow overflow-hidden">
+            <img src={item.img} className="w-full h-40 object-cover" />
+            <div className="p-4 flex justify-between items-start">
+              <div>
+                <h2 className="font-bold text-lg">{item.name} <button onClick={()=>toggleFav(item.id)}>{fav.includes(item.id) ? "❤️" : "🤍"}</button></h2>
+                <p className="text-gray-500 text-sm">{item.desc}</p>
+                <p className="font-bold text-teal-600">{item.price} EGP</p>
+              </div>
+              <div className="flex items-center gap-2">
+                <button onClick={()=>changeQty(item.id,1)} className="bg-teal-600 text-white w-8 h-8 rounded-full font-bold">+</button>
+                <span className="font-bold">{cart[item.id]||0}</span>
+                <button onClick={()=>changeQty(item.id,-1)} className="bg-gray-200 w-8 h-8 rounded-full font-bold">-</button>
+              </div>
+            </div>
+          </div>
+        ))}
+      </div>
 
-<div class="card">
-<h2>
-📁 My Patient File
-</h2>
-<p id="fileText">
-No bookings yet. Book now to create your file.
-</p>
-<button onclick="sendWhatsApp()">
-📲 Send Booking on WhatsApp
-</button>
-</div>
-
-<div class="card">
-<h2>
-❓ FAQ
-</h2>
-<p>
-<b>Can I cancel?</b> Yes, call 01000000000 - Demo Number
-</p>
-<br>
-<p>
-<b>Do I need to pay online?</b> No, pay at clinic. This is a demo.
-</p>
-</div>
-
-</div>
-
-<footer>
-<p>
-Omnia Clinic - Demo Project by Omnia Ibrahim
-</p>
-<p>
-📍 123 Demo Street, Mansoura, Egypt - Demo Address Only
-</p>
-<p>
-📞 01000000000 - Demo Number Only
-</p>
-<p>
-This is a demo website, not a real clinic.
-</p>
-</footer>
-
-<script>
-let selectedSymptoms = [];
-let selectedDoctor = "";
-let lastBooking = null;
-function pickSymptom(el, txt) {
-el.classList.toggle('active');
-if (selectedSymptoms.includes(txt)) {
-selectedSymptoms = selectedSymptoms.filter(s => s !== txt);
-} else {
-selectedSymptoms.push(txt);
+      <div className="bg-white text-black p-4 rounded-2xl shadow max-w-3xl mx-auto mx-4 md:mx-auto">
+        <h2 className="font-bold text-xl text-center">🛒 Your Booking: {totalItems} service</h2>
+        {Object.entries(cart).map(([id,qty])=>{ let it=services.find(m=>m.id==id); return <p key={id} className="text-center text-sm">{it.name} x{qty} = {it.price*qty} EGP <button onClick={()=>changeQty(id,-qty)} className="text-red-500">❌</button></p> })}
+        <p className="text-center mt-2">Subtotal: {subtotal} | Discount: {discount} | Booking Fee: {fee} | <b>Total: {total} EGP</b></p>
+        <input value={promo} onChange={e=>setPromo(e.target.value)} placeholder="Promo code - try OMNIA10" className="w-full border p-3 rounded-xl mt-2" />
+        <input value={name} onChange={e=>setName(e.target.value)} placeholder="Your name" className="w-full border p-3 rounded-xl mt-2" />
+        <input value={phone} onChange={e=>setPhone(e.target.value)} placeholder="Your phone number" className="w-full border p-3 rounded-xl mt-2" />
+        <button onClick={order} className="w-full bg-green-500 text-white py-3 rounded-xl font-bold mt-3">Book on WhatsApp 📲 - {total} EGP</button>
+      </div>
+      <p className="text-center text-xs text-gray-400 mt-8">This is a Demo Project by Omnia Ibrahim - Mansoura, Dakahlia<br/>For Portfolio | WhatsApp: 01068348772</p>
+    </div>
+  );
 }
-let sug = document.getElementById('suggest');
-if (selectedSymptoms.length > 0) {
-sug.style.display = 'block';
-let map = {
-'Fever': 'Dr. Ahmed - General',
-'Headache': 'Dr. Ahmed - General',
-'Cough': 'Dr. Ahmed - General',
-'Stomach Pain': 'Dr. Ahmed - General',
-'Skin Problem': 'Dr. Omar - Dermatology',
-'Tooth Pain': 'Dr. Sara - Dentist',
-'Eye Problem': 'Dr. Laila - Eye',
-'Back Pain': 'Dr. Karim - Orthopedic',
-'Allergy': 'Dr. Ahmed - General'
-};
-document.getElementById('suggestText').innerText = map[selectedSymptoms[0]] || 'Dr. Ahmed - General';
-} else {
-sug.style.display = 'none';
-}
-}
-function pickDoctor(el, name) {
-document.querySelectorAll('.doc').forEach(d => d.classList.remove('active'));
-el.classList.add('active');
-selectedDoctor = name;
-}
-function book() {
-let name = document.getElementById('name').value;
-let phone = document.getElementById('phone').value;
-let age = document.getElementById('age').value;
-let date = document.getElementById('date').value;
-let slot = document.getElementById('slot').value;
-if (!name || !phone || !date || !selectedDoctor) {
-alert("Please fill name, phone, date and choose doctor");
-return;
-}
-lastBooking = { name, phone, age, date, slot, doctor: selectedDoctor, symptoms: selectedSymptoms.join(', ') };
-document.getElementById('myBookings').innerHTML += `<div class="booking"><span><b>${name}</b> - ${selectedDoctor} - ${date} ${slot}</span><b>✅</b></div>`;
-document.getElementById('fileText').innerText = `Patient: ${name} | Age: ${age} | Phone: ${phone} | Doctor: ${selectedDoctor} | Date: ${date} ${slot} | Symptoms: ${selectedSymptoms.join(', ') || 'None'}`;
-alert("Booking Confirmed for " + name);
-}
-function emergency() {
-alert("This is a demo. Emergency Number: 01000000000 - Demo Only");
-}
-function sendWhatsApp() {
-if (!lastBooking) {
-alert("Please book first");
-return;
-}
-let msg = `Hello Omnia Clinic! I want to confirm my booking:%0AName: ${lastBooking.name}%0APhone: ${lastBooking.phone}%0ADoctor: ${lastBooking.doctor}%0ADate: ${lastBooking.date} ${lastBooking.slot}%0ASymptoms: ${lastBooking.symptoms}`;
-window.open("https://wa.me/201000000000?text=" + msg, "_blank");
-}
+ReactDOM.createRoot(document.getElementById('root')).render(<App />);
 </script>
 </body>
 </html>
